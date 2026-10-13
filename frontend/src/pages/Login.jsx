@@ -1,0 +1,9 @@
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+export default function Login() {
+  const [email,setEmail]=useState(''); const [password,setPassword]=useState(''); const [error,setError]=useState(''); const [busy,setBusy]=useState(false);
+  const {login}=useAuth(); const navigate=useNavigate();
+  async function submit(e){e.preventDefault();setError('');setBusy(true);try{const u=await login(email,password);navigate(u.role==='ADMIN'?'/departments':'/');}catch(err){setError(err.message);}finally{setBusy(false);}}
+  return <div className="auth-page"><div className="auth-visual"><div className="brand light"><span className="brand-mark">✚</span><span>CarePoint<small>HOSPITAL SYSTEM</small></span></div><div className="visual-copy"><span className="pill">CARE THAT CONNECTS</span><h1>Better care.<br/><em>One connected</em><br/>experience.</h1><p>Simple, organized healthcare management for patients and providers.</p></div><div className="visual-footer">A healthier way to manage care <span>✳</span></div></div><div className="auth-form-wrap"><form className="auth-form" onSubmit={submit}><span className="eyebrow">WELCOME BACK</span><h2>Sign in to your account</h2><p className="muted">Enter your details to continue to CarePoint.</p>{error&&<div className="alert">{error}</div>}<label>Email address<input type="email" required value={email} onChange={e=>setEmail(e.target.value)} placeholder="you@example.com"/></label><label>Password<input type="password" required value={password} onChange={e=>setPassword(e.target.value)} placeholder="Enter your password"/></label><button className="primary full" disabled={busy}>{busy?'Signing in…':'Sign in →'}</button><p className="auth-switch">New to CarePoint? <Link to="/register">Create an account</Link></p></form></div></div>;
+}
