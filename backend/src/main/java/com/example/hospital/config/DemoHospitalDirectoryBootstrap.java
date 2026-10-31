@@ -28,7 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
  * Sample users have random passwords and are not real, sign-in-ready clinicians.
  */
 @Component
-@Profile("replit")
+@Profile({"replit", "local-demo"})
 public class DemoHospitalDirectoryBootstrap implements ApplicationRunner {
     private static final Logger log = LoggerFactory.getLogger(DemoHospitalDirectoryBootstrap.class);
     private static final List<DayOfWeek> CLINIC_DAYS = List.of(
